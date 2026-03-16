@@ -131,6 +131,7 @@ const Navbar = () => {
           <nav className="hidden md:flex items-center gap-8">
             <a href="#home" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>ראשי</a>
             <a href="#about" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>אודות</a>
+            <a href="#credo" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>אני מאמין</a>
             <a href="#properties" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>נכסים נבחרים</a>
             <a href="#testimonials" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>המלצות</a>
             <a href="#contact" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>צור קשר</a>
@@ -157,6 +158,7 @@ const Navbar = () => {
         <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-100 py-4 px-4 flex flex-col gap-4">
           <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">ראשי</a>
           <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אודות</a>
+          <a href="#credo" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אני מאמין</a>
           <a href="#properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים נבחרים</a>
           <a href="#testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">המלצות</a>
           <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">צור קשר</a>
@@ -291,8 +293,42 @@ export default function App() {
         </div>
       </section>
 
+      {/* Credo Section */}
+      <section id="credo" className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            >
+              אני מאמין
+            </motion.h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              הדרך שלנו להצלחה בעסקת הנדל"ן שלכם
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="w-full max-w-4xl"
+            >
+              <img
+                src="/credo.jpg"
+                alt="אני מאמין - עסקת חייכם או איך קונים נכס?"
+                className="w-full h-auto rounded-2xl shadow-2xl"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Properties Section */}
-      <section id="properties" className="py-24 bg-slate-50">
+      <section id="properties" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
@@ -367,7 +403,7 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-24 bg-white">
+      <section id="testimonials" className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
