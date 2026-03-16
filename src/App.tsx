@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Mail, Bed, Bath, Square, Home, Award, TrendingUp, Menu, X, ArrowLeft, Star, Quote, CheckCircle, Globe } from 'lucide-react';
 import VideoTestimonials from './pages/VideoTestimonials';
@@ -143,9 +143,9 @@ const Navbar = () => {
             <a href="/#about" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>אודות</a>
             <a href="/#credo" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>אני מאמין</a>
             <a href="/#properties" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>נכסים נבחרים</a>
-            <a href="/hot-properties" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>נכסים חמים</a>
+            <Link to="/hot-properties" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>נכסים חמים</Link>
             <a href="/#testimonials" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>המלצות</a>
-            <a href="/video-testimonials" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>לקוחות ממליצים ווידיאו</a>
+            <Link to="/video-testimonials" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>לקוחות ממליצים ווידיאו</Link>
             <a href="/#contact" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>צור קשר</a>
           </nav>
 
@@ -172,9 +172,9 @@ const Navbar = () => {
           <a href="/#about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אודות</a>
           <a href="/#credo" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אני מאמין</a>
           <a href="/#properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים נבחרים</a>
-          <a href="/hot-properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים חמים</a>
+          <Link to="/hot-properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים חמים</Link>
           <a href="/#testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">המלצות</a>
-          <a href="/video-testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">לקוחות ממליצים ווידיאו</a>
+          <Link to="/video-testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">לקוחות ממליצים ווידיאו</Link>
           <a href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">צור קשר</a>
           <a href="tel:0556662393" className="bg-amber-600 text-white p-3 rounded-lg font-medium flex items-center justify-center gap-2 mt-2">
             <Phone className="w-5 h-5" />
