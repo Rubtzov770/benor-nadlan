@@ -247,9 +247,9 @@ export default function App() {
               transition={{ duration: 0.8 }}
             >
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/profile.jpg"
                 alt="Moshik Ben-Or"
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl object-cover w-full h-[500px]"
               />
             </motion.div>
             <motion.div
