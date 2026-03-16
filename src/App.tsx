@@ -3,23 +3,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Mail, Bed, Bath, Square, Home, Award, TrendingUp, Menu, X, ArrowLeft, Star, Quote, CheckCircle, Globe } from 'lucide-react';
+import VideoTestimonials from './pages/VideoTestimonials';
+import HotProperties from './pages/HotProperties';
 
 const testimonials = [
   {
     id: 1,
-    name: 'משפחת לוי',
-    text: 'מושיק ליווה אותנו במקצועיות ובסבלנות רבה עד שמצאנו את בית חלומותינו בעיר העתיקה. הידע שלו בצפת הוא פשוט נכס. מומלץ בחום!',
+    name: 'מנחם אברהם',
+    text: 'ערב טוב, תודה רבה רבה רבה על הדירה המושלמת שתווכת לי, תדע שאני מעריך מאוד, אני ואשתי (אפילו הילדים) מאושרים מהדירה, אז תודה רבה שוב על הכל, ואני מאחל לך ולמשפחה שלך שתמיד תהיו מאושרים ושמחים, ושתמיד תעשה טוב לעוד יהודים.',
     image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-    role: 'קוני נכס'
+    role: 'קונה נכס'
   },
   {
     id: 2,
-    name: 'א. כהן',
-    text: 'תהליך מכירת הדירה היה מהיר ויעיל משחשבתי. מושיק דאג להכל, החל מהערכת השווי ועד לחתימת החוזה, תוך שקיפות מלאה.',
+    name: 'פנחס פריד',
+    text: 'ברצוני להודות למשרד תיווך בן אור על שירות מעולה ומהיר שהעניקו לי בעת רכישת דירה. הצוות היה מסור ומקצועי, מאיר פנים, סבלני, אחראי וקשוב וניהל את התהליך במהירות. אני ממליץ בחום עליהם.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-    role: 'מוכר נכס'
+    role: 'קונה נכס'
   },
   {
     id: 3,
@@ -95,7 +98,7 @@ const Logo = ({ className = "", dark = false }: { className?: string, dark?: boo
   <div className={`flex flex-col items-center justify-center ${className}`}>
     <LogoGraphic className="h-10 md:h-12 w-auto mb-1" dark={dark} />
     <div className={`text-2xl md:text-3xl font-black tracking-tight leading-none mb-1 flex items-center gap-1.5 ${dark ? 'text-white' : 'text-black'}`}>
-      <span>בן-אור</span>
+      <span>בן אור</span>
       <span className="font-normal">נכסים</span>
     </div>
     <div className={`flex items-center gap-2 text-[8px] md:text-[10px] tracking-widest ${dark ? 'text-slate-300' : 'text-gray-600'}`}>
@@ -111,30 +114,39 @@ const Logo = ({ className = "", dark = false }: { className?: string, dark?: boo
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+    // Also check on mount
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Ensure navbar is dark on pages other than home if not scrolled
+  const isHomePage = location.pathname === '/';
+  const shouldBeDark = !isScrolled && isHomePage;
+
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'}`}>
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${!shouldBeDark ? 'bg-white/95 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Logo dark={!isScrolled} className="scale-75 md:scale-90 origin-right" />
+            <Logo dark={shouldBeDark} className="scale-75 md:scale-90 origin-right" />
           </div>
 
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#home" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>ראשי</a>
-            <a href="#about" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>אודות</a>
-            <a href="#credo" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>אני מאמין</a>
-            <a href="#properties" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>נכסים נבחרים</a>
-            <a href="#testimonials" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>המלצות</a>
-            <a href="#contact" className={`font-medium hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>צור קשר</a>
+            <a href="/#home" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>ראשי</a>
+            <a href="/#about" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>אודות</a>
+            <a href="/#credo" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>אני מאמין</a>
+            <a href="/#properties" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>נכסים נבחרים</a>
+            <a href="/hot-properties" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>נכסים חמים</a>
+            <a href="/#testimonials" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>המלצות</a>
+            <a href="/video-testimonials" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>לקוחות ממליצים ווידיאו</a>
+            <a href="/#contact" className={`font-medium hover:text-amber-500 transition-colors ${!shouldBeDark ? 'text-slate-700' : 'text-slate-200'}`}>צור קשר</a>
           </nav>
 
           <div className="hidden md:block">
@@ -146,9 +158,9 @@ const Navbar = () => {
 
           <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? (
-              <X className={`w-7 h-7 ${isScrolled ? 'text-slate-900' : 'text-white'}`} />
+              <X className={`w-7 h-7 ${!shouldBeDark ? 'text-slate-900' : 'text-white'}`} />
             ) : (
-              <Menu className={`w-7 h-7 ${isScrolled ? 'text-slate-900' : 'text-white'}`} />
+              <Menu className={`w-7 h-7 ${!shouldBeDark ? 'text-slate-900' : 'text-white'}`} />
             )}
           </button>
         </div>
@@ -156,12 +168,14 @@ const Navbar = () => {
 
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-100 py-4 px-4 flex flex-col gap-4">
-          <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">ראשי</a>
-          <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אודות</a>
-          <a href="#credo" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אני מאמין</a>
-          <a href="#properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים נבחרים</a>
-          <a href="#testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">המלצות</a>
-          <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">צור קשר</a>
+          <a href="/#home" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">ראשי</a>
+          <a href="/#about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אודות</a>
+          <a href="/#credo" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">אני מאמין</a>
+          <a href="/#properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים נבחרים</a>
+          <a href="/hot-properties" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">נכסים חמים</a>
+          <a href="/#testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">המלצות</a>
+          <a href="/video-testimonials" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">לקוחות ממליצים ווידיאו</a>
+          <a href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-medium p-2 hover:bg-slate-50 rounded-lg">צור קשר</a>
           <a href="tel:0556662393" className="bg-amber-600 text-white p-3 rounded-lg font-medium flex items-center justify-center gap-2 mt-2">
             <Phone className="w-5 h-5" />
             <span dir="ltr">055-666-2393</span>
@@ -172,7 +186,7 @@ const Navbar = () => {
   );
 };
 
-export default function App() {
+const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -180,7 +194,7 @@ export default function App() {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // סימולציה של שליחת טופס למושיק בנאור
+    // סימולציה של שליחת טופס למושיק בן אור
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -190,9 +204,101 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans" dir="rtl">
-      <Navbar />
+    <section id="contact" className="py-20 bg-slate-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">בואו נדבר על הנכס הבא שלכם</h2>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            השאירו פרטים ואחזור אליכם בהקדם האפשרי לפגישת ייעוץ ללא התחייבות.
+          </p>
+        </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-1 space-y-8">
+            <div className="flex items-center gap-4">
+              <div className="bg-white/10 p-4 rounded-full text-amber-500">
+                <Phone className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm text-slate-400">טלפון נייד</p>
+                <p className="text-xl font-medium" dir="ltr">055-666-2393</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="bg-white/10 p-4 rounded-full text-amber-500">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm text-slate-400">דוא"ל</p>
+                <p className="text-xl font-medium">MBO770@GMAIL.COM</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="bg-white/10 p-4 rounded-full text-amber-500">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm text-slate-400">משרד</p>
+                <p className="text-xl font-medium">רחוב השבעה 204 כנען, צפת</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="bg-white/10 p-4 rounded-full text-amber-500">
+                <Globe className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm text-slate-400">אתר אינטרנט</p>
+                <p className="text-xl font-medium" dir="ltr">BENOR-NADLAN.CO.IL</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2">
+            {isSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-8 text-center h-full flex flex-col items-center justify-center min-h-[400px]"
+              >
+                <CheckCircle className="w-16 h-16 text-emerald-500 mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-2">הפנייה נשלחה בהצלחה!</h3>
+                <p className="text-emerald-200">תודה שפנית אליי. אחזור אליך בהקדם האפשרי.</p>
+              </motion.div>
+            ) : (
+              <form className="bg-white/5 p-8 rounded-2xl border border-white/10" onSubmit={handleFormSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">שם מלא *</label>
+                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all" placeholder="ישראל ישראלי" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">טלפון *</label>
+                    <input required type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all text-right" placeholder="055-0000000" dir="ltr" />
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">דוא"ל *</label>
+                  <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all text-right" placeholder="example@email.com" dir="ltr" />
+                </div>
+                <div className="mb-8">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">הודעה *</label>
+                  <textarea required rows={4} value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all" placeholder="ספר/י לי קצת על מה שאתם מחפשים..."></textarea>
+                </div>
+                <button disabled={isSubmitting} type="submit" className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-amber-600/50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-colors text-lg flex items-center justify-center gap-2">
+                  {isSubmitting ? 'שולח...' : 'שלח פנייה'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+function Home() {
+  return (
+    <main>
       {/* Hero Section */}
       <section id="home" className="relative h-screen flex items-center justify-center pt-20">
         <div className="absolute inset-0 z-0">
@@ -219,7 +325,7 @@ export default function App() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl text-slate-200 mb-10"
           >
-            מושיק בנאור - מומחה הנדל"ן שלכם בעיר המקובלים והסביבה.
+            מושיק בן אור - מומחה הנדל"ן שלכם בעיר המקובלים והסביבה.
             <br className="hidden md:block" /> ליווי אישי, מקצועיות ללא פשרות ותוצאות.
           </motion.p>
           <motion.div
@@ -260,7 +366,7 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">נעים להכיר, מושיק בנאור</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">נעים להכיר, מושיק בן אור</h2>
               <p className="text-lg text-slate-600 mb-6 leading-relaxed">
                 עם ניסיון של למעלה מעשור בשוק הנדל"ן המקומי, אני מביא איתי היכרות מעמיקה עם כל שכונה, רחוב וסמטה בעיר צפת.
                 העיר צפת היא לא רק אזור פעילות עבורי, היא הבית.
@@ -455,118 +561,49 @@ export default function App() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">בואו נדבר על הנכס הבא שלכם</h2>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              השאירו פרטים ואחזור אליכם בהקדם האפשרי לפגישת ייעוץ ללא התחייבות.
-            </p>
-          </div>
+      {/* Contact section removed from here, now in App layout */}
+    </main>
+  );
+}
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-1 space-y-8">
-              <div className="flex items-center gap-4">
-                <div className="bg-white/10 p-4 rounded-full text-amber-500">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400">טלפון נייד</p>
-                  <p className="text-xl font-medium" dir="ltr">055-666-2393</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="bg-white/10 p-4 rounded-full text-amber-500">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400">דוא"ל</p>
-                  <p className="text-xl font-medium">MBO770@GMAIL.COM</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="bg-white/10 p-4 rounded-full text-amber-500">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400">משרד</p>
-                  <p className="text-xl font-medium">רחוב השבעה 204 כנען, צפת</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="bg-white/10 p-4 rounded-full text-amber-500">
-                  <Globe className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-400">אתר אינטרנט</p>
-                  <p className="text-xl font-medium" dir="ltr">BENOR-NADLAN.CO.IL</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2">
-              {isSubmitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-8 text-center h-full flex flex-col items-center justify-center min-h-[400px]"
-                >
-                  <CheckCircle className="w-16 h-16 text-emerald-500 mb-4" />
-                  <h3 className="text-2xl font-bold text-white mb-2">הפנייה נשלחה בהצלחה!</h3>
-                  <p className="text-emerald-200">תודה שפנית אליי. אחזור אליך בהקדם האפשרי.</p>
-                </motion.div>
-              ) : (
-                <form className="bg-white/5 p-8 rounded-2xl border border-white/10" onSubmit={handleFormSubmit}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">שם מלא *</label>
-                      <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all" placeholder="ישראל ישראלי" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">טלפון *</label>
-                      <input required type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all text-right" placeholder="055-0000000" dir="ltr" />
-                    </div>
-                  </div>
-                  <div className="mb-6">
-                    <label className="block text-sm font-medium text-slate-300 mb-2">דוא"ל *</label>
-                    <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all text-right" placeholder="example@email.com" dir="ltr" />
-                  </div>
-                  <div className="mb-8">
-                    <label className="block text-sm font-medium text-slate-300 mb-2">הודעה *</label>
-                    <textarea required rows={4} value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all" placeholder="ספר/י לי קצת על מה שאתם מחפשים..."></textarea>
-                  </div>
-                  <button disabled={isSubmitting} type="submit" className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-amber-600/50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-colors text-lg flex items-center justify-center gap-2">
-                    {isSubmitting ? 'שולח...' : 'שלח פנייה'}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-950 text-slate-400 py-12 text-center">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-center gap-8">
-          <Logo dark={true} className="opacity-80 hover:opacity-100 transition-opacity" />
-          <p>© {new Date().getFullYear()} מושיק בנאור תיווך נדל"ן. כל הזכויות שמורות.</p>
-        </div>
-      </footer>
-
-      {/* WhatsApp Floating Button */}
-      <a
-        href="https://wa.me/972556662393"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-xl hover:scale-110 transition-transform flex items-center justify-center"
-        aria-label="שלח הודעת וואטסאפ"
-      >
-        <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 fill-current">
-          <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.21 2.095 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.195-.572-.345z"/>
-          <path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.48-8.45zM12.046 21.84c-1.774 0-3.512-.473-5.035-1.363l-.36-.211-3.741.975.996-3.626-.235-.37A9.896 9.896 0 011.99 11.89c.003-5.522 4.529-10.022 10.063-10.022 2.69 0 5.215 1.04 7.114 2.93 1.898 1.89 2.94 4.4 2.94 7.085-.004 5.524-4.53 10.025-10.061 10.025z"/>
-        </svg>
-      </a>
+const Footer = () => (
+  <footer className="bg-slate-950 text-slate-400 py-12 text-center">
+    <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-center gap-8">
+      <Logo dark={true} className="opacity-80 hover:opacity-100 transition-opacity" />
+      <p>© {new Date().getFullYear()} מושיק בן אור תיווך נדל"ן. כל הזכויות שמורות.</p>
     </div>
+  </footer>
+);
+
+const WhatsAppButton = () => (
+  <a
+    href="https://wa.me/972556662393"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="fixed bottom-6 left-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-xl hover:scale-110 transition-transform flex items-center justify-center"
+    aria-label="שלח הודעת וואטסאפ"
+  >
+    <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 fill-current">
+      <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.21 2.095 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.195-.572-.345z"/>
+      <path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.48-8.45zM12.046 21.84c-1.774 0-3.512-.473-5.035-1.363l-.36-.211-3.741.975.996-3.626-.235-.37A9.896 9.896 0 011.99 11.89c.003-5.522 4.529-10.022 10.063-10.022 2.69 0 5.215 1.04 7.114 2.93 1.898 1.89 2.94 4.4 2.94 7.085-.004 5.524-4.53 10.025-10.061 10.025z"/>
+    </svg>
+  </a>
+);
+
+export default function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans" dir="rtl">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/video-testimonials" element={<VideoTestimonials />} />
+          <Route path="/hot-properties" element={<HotProperties />} />
+        </Routes>
+        <ContactSection />
+        <Footer />
+        <WhatsAppButton />
+      </div>
+    </Router>
   );
 }
