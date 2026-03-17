@@ -358,7 +358,7 @@ function Home() {
               transition={{ duration: 0.8 }}
             >
               <img
-                src="/profile.jpg"
+                src="https://res.cloudinary.com/ds4095jem/image/upload/v1773776090/Screenshot_2026-03-16_205024_scvwod.jpg"
                 alt="Moshik Ben-Or"
                 className="rounded-2xl shadow-2xl object-cover w-full h-[500px]"
               />
