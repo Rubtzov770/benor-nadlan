@@ -36,36 +36,39 @@ const testimonials = [
 const listings = [
   {
     id: 1,
-    title: 'וילה יוקרתית עם נוף לכנרת',
-    location: 'נוף כנרת, צפת',
-    price: '₪3,500,000',
-    beds: 5,
-    baths: 3,
-    sqm: 250,
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    title: 'דירת 4 חדרים מרכזית',
+    location: 'כנען, צפת',
+    price: '₪1,650,000',
+    beds: 4,
+    baths: 1,
+    sqm: 100,
+    image: 'https://res.cloudinary.com/ds4095jem/image/upload/v1773775429/KNAAN_ayozno.jpg',
     featured: true,
+    description: 'זכויות בניה נוספות. חצר, מחסן. קרובה לכל המוסדות, מיקום מרכזי מאד.'
   },
   {
     id: 2,
-    title: 'דירת גן קסומה בעיר העתיקה',
-    location: 'העיר העתיקה, צפת',
-    price: '₪1,850,000',
-    beds: 3,
-    baths: 2,
-    sqm: 110,
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    title: 'בית פרטי עם צימרים ובריכה',
+    location: 'הגדוד השלישי, צפת',
+    price: '₪7,000,000',
+    beds: 6,
+    baths: 3,
+    sqm: 450,
+    image: 'https://res.cloudinary.com/ds4095jem/image/upload/v1773775429/GDUD_jdtsph.jpg',
     featured: true,
+    description: 'שטח 1,000 מ"ר. 2 יחידות מושכרות כצימרים. בריכת שחיה, חצר וחניות פרטיות.'
   },
   {
     id: 3,
-    title: 'פנטהאוז מודרני ומרווח',
-    location: 'רמת רזים, צפת',
-    price: '₪2,200,000',
+    title: 'דירת 4 חדרים עם נוף פסטורלי',
+    location: 'מצפה האגם, צפת',
+    price: '₪1,420,000',
     beds: 4,
-    baths: 2,
-    sqm: 160,
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    featured: false,
+    baths: 1,
+    sqm: 105,
+    image: 'https://res.cloudinary.com/ds4095jem/image/upload/v1773775429/MIZPE_hnmuo8.jpg',
+    featured: true,
+    description: 'קומה ראשונה. מרפסת סגורה בהיתר. נוף פסטורלי לכינרת. יש ממ"ד.'
   }
 ];
 
@@ -424,7 +427,7 @@ function Home() {
               className="w-full max-w-4xl"
             >
               <img
-                src="/credo.jpg"
+                src="https://res.cloudinary.com/ds4095jem/image/upload/v1773776090/WhatsApp_Image_2026-03-16_at_21.02.37_grzfhl.jpg"
                 alt="אני מאמין - עסקת חייכם או איך קונים נכס?"
                 className="w-full h-auto rounded-2xl shadow-2xl"
               />
@@ -480,7 +483,8 @@ function Home() {
                     <MapPin className="w-4 h-4 text-amber-600" />
                     {listing.location}
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4">{listing.title}</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 line-clamp-1">{listing.title}</h3>
+                  <p className="text-slate-600 text-sm mb-4 line-clamp-2 h-[40px]">{listing.description}</p>
                   <div className="flex items-center justify-between border-t border-slate-100 pt-4">
                     <div className="flex items-center gap-2 text-slate-600">
                       <Bed className="w-5 h-5 text-slate-400" />
@@ -533,7 +537,7 @@ function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-slate-50 p-8 rounded-2xl relative"
+                className="bg-slate-50 p-8 rounded-2xl relative h-full flex flex-col"
               >
                 <Quote className="absolute top-6 left-6 w-10 h-10 text-amber-200" />
                 <div className="flex gap-1 mb-6 relative z-10">
@@ -541,15 +545,10 @@ function Home() {
                     <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-                <p className="text-slate-700 mb-8 relative z-10 leading-relaxed">
+                <p className="text-slate-700 mb-8 relative z-10 leading-relaxed flex-grow">
                   "{testimonial.text}"
                 </p>
                 <div className="flex items-center gap-4 border-t border-slate-200 pt-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
                   <div>
                     <h4 className="font-bold text-slate-900">{testimonial.name}</h4>
                     <p className="text-sm text-slate-500">{testimonial.role}</p>
