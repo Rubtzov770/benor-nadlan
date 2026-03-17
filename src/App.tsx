@@ -36,7 +36,7 @@ const testimonials = [
 const listings = [
   {
     id: 1,
-    title: 'דירת 4 חדרים מרכזית',
+    title: 'דירת 4 חדרים עם חצר',
     location: 'כנען, צפת',
     price: '₪1,650,000',
     beds: 4,
